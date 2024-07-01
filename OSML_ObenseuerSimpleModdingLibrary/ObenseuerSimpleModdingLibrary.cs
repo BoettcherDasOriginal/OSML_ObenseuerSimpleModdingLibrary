@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using OSLoader;
 
-namespace OSML_ObenseuerSimpleModdingLibrary
+namespace OSML
 {
     public class ObenseuerSimpleModdingLibrary : Mod
     {
