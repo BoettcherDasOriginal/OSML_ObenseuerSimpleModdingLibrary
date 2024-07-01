@@ -8,11 +8,14 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\.deps\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\.deps\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
     <Reference Include="OSLoader">
       <HintPath>..\.deps\OSLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\.deps\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>..\.deps\UnityEngine.AssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\.deps\UnityEngine.CoreModule.dll</HintPath>

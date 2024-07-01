@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BehaviorDesigner.Runtime.Tasks;
 using OSLoader;
+using UnityEngine.SceneManagement;
 
 namespace OSML
 {
@@ -10,7 +12,41 @@ namespace OSML
         public override void OnModLoaded()
         {
             base.OnModLoaded();
-            logger.Log($"Library version {config.version} loaded!");
+
+            new PublicVars();
+            logger.Log("Initializing OSML...");
+
+            PublicVars.instance.version = config.version;
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
+
+            logger.Log($"OSML version {config.version} Initialized!");
+            PublicVars.instance.isInitialized = true;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+        {
+            if(!PublicVars.instance.isInitialized) return;
+
+            logger.Log($"Scene: {scene.buildIndex}, {scene.name} loaded!");
+
+            PublicVars.instance.lastLoadedScene = scene.buildIndex;
+        }
+    }
+
+    public class PublicVars
+    {
+        public static PublicVars instance;
+
+        public string version;
+        public bool isInitialized;
+
+        public int lastLoadedScene = 0;
+
+        public PublicVars()
+        {
+            if( instance == null ) instance = this;
+            else return;
         }
     }
 }
