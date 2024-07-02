@@ -20,6 +20,9 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\.deps\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\.deps\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
