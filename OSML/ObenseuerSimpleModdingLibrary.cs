@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using BehaviorDesigner.Runtime.Tasks;
 using OSLoader;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace OSML
@@ -31,6 +32,12 @@ namespace OSML
             logger.Log($"Scene: {scene.buildIndex}, {scene.name} loaded!");
 
             PublicVars.instance.lastLoadedScene = scene.buildIndex;
+            PublicVars.instance.firstUpdateFinished = false;
+
+            if(scene.buildIndex != 0)
+            {
+                GameObject sro = new GameObject("SceneRuntimeObject", typeof(SceneRuntimeObject));
+            }
         }
     }
 
@@ -42,6 +49,8 @@ namespace OSML
         public bool isInitialized;
 
         public int lastLoadedScene = 0;
+
+        public bool firstUpdateFinished;
 
         public PublicVars()
         {
