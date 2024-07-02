@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSML_ObenseuerSimpleModdingLibrary", "OSML_ObenseuerSimpleModdingLibrary\OSML_ObenseuerSimpleModdingLibrary.csproj", "{1C6BDCE4-E07A-40DE-8AC0-5BC37B3EAF26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSML", "OSML\OSML.csproj", "{14F82F72-846D-43FF-AE0F-465E8A6A1254}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1C6BDCE4-E07A-40DE-8AC0-5BC37B3EAF26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C6BDCE4-E07A-40DE-8AC0-5BC37B3EAF26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C6BDCE4-E07A-40DE-8AC0-5BC37B3EAF26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C6BDCE4-E07A-40DE-8AC0-5BC37B3EAF26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14F82F72-846D-43FF-AE0F-465E8A6A1254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F82F72-846D-43FF-AE0F-465E8A6A1254}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F82F72-846D-43FF-AE0F-465E8A6A1254}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F82F72-846D-43FF-AE0F-465E8A6A1254}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
