@@ -1,5 +1,5 @@
 <div align="center">
-  <img src=".img/osml_logo.png" width="20%" height="auto">
+  <img src=".img/osml_logo.png" width="30%" height="auto">
 </div>
 <h1 align="center">Obenseuer Simple Modding Library</h1>
 
