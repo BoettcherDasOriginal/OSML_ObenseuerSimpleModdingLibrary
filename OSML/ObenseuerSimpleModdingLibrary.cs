@@ -41,15 +41,28 @@ namespace OSML
         }
     }
 
+    /// <summary>
+    /// Provides Public Vars, so you dont need to get them everytime!
+    /// </summary>
     public class PublicVars
     {
         public static PublicVars instance;
 
+        /// <summary>
+        /// The current OSML version
+        /// </summary>
         public string version;
+
         public bool isInitialized;
 
+        /// <summary>
+        /// The build index of the last scene during the "SceneManager.sceneLoaded" callback
+        /// </summary>
         public int lastLoadedScene = 0;
 
+        /// <summary>
+        /// You want to execute your mod logic after this (firstUpdateFinished = true) to make sure that all game logic is already initialized!
+        /// </summary>
         public bool firstUpdateFinished;
 
         public PublicVars()

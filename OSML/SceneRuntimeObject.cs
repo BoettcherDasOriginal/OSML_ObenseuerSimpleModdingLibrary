@@ -12,7 +12,7 @@ namespace OSML
 
         private void Update()
         {
-            if(_trigger)
+            if (_trigger)
             {
                 _trigger = false;
                 StartCoroutine(updateWaitRoutine());
