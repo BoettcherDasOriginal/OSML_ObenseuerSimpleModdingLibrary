@@ -1,0 +1,19 @@
+{
+	"title": "OSML Box",
+	"details":"Hey, this is from a Mod!",
+
+	"priceOC": 30,
+	"priceRM": 2,
+
+	"assetBundlePath": "osml_box",
+	"imageName":"osml_box_img",
+	"prefabName":"osml_box_pre",
+	"previewPrefabName":"osml_box_prepre",
+	
+	"category": "Storage",
+	"restrictedAreas": [
+	],
+	
+	"displayStyle": "Default",
+	"displayRotationY": 0
+}

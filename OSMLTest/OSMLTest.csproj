@@ -37,4 +37,12 @@
     <Copy SourceFiles="config.json" DestinationFolder="$(OutDir)" />
   </Target>
 
+  <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+    <Copy SourceFiles="osml_box.json" DestinationFolder="$(OutDir)" />
+  </Target>
+
+  <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+    <Copy SourceFiles="osml_box" DestinationFolder="$(OutDir)" />
+  </Target>
+
 </Project>
