@@ -10,8 +10,8 @@
 [![Pull requests](https://img.shields.io/github/issues-pr/BoettcherDasOriginal/OSML_ObenseuerSimpleModdingLibrary)](https://github.com/BoettcherDasOriginal/OSML_ObenseuerSimpleModdingLibrary/pulls)
 
 
- A library mod for simpler modding the game Obenseuer using its unoffical mod loader OSLoader.
+ A library mod for simpler modding the game Obenseuer using its unoffical mod loader [OSLoader](https://github.com/Ierdna100/OSLoader)
 
 ## Getting Started
-- [Installation Guide]()
-- [Library Documentation]()
+- [Installation Guide]() *WIP*
+- [Library Documentation]() *WIP*
