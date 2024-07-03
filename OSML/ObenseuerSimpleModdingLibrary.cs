@@ -21,6 +21,8 @@ namespace OSML
 
             SceneManager.sceneLoaded += OnSceneLoaded;
 
+            Detour.SavableScriptableObjectDetour.PatchSavableScriptableObject();
+
             logger.Log($"OSML version {config.version} Initialized!");
             PublicVars.instance.isInitialized = true;
         }

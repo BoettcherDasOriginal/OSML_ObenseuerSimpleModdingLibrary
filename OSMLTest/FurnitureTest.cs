@@ -86,6 +86,7 @@ namespace OSMLTest
                 );
 
                 //f.addressableAssetPath = "Assets/Content/Prefabs/Building System/Furniture/Decoration/Flag of Sweden.asset";
+                f.addressableAssetPath = "OSML";
 
                 f.GiveItem();
             }
