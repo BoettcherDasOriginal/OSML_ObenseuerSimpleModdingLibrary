@@ -85,6 +85,8 @@ namespace OSMLTest
                     new System.Collections.Generic.List<Furniture.ReseourceItem>()
                 );
 
+                //f.addressableAssetPath = "Assets/Content/Prefabs/Building System/Furniture/Decoration/Flag of Sweden.asset";
+
                 f.GiveItem();
             }
         }

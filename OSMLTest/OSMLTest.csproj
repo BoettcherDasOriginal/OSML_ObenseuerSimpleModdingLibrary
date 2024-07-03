@@ -16,6 +16,9 @@
     <Reference Include="OSLoader">
       <HintPath>..\.deps\OSLoader.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Addressables">
+      <HintPath>..\.deps\Unity.Addressables.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\.deps\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
