@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using OS;
+using OSMLUnity;
 using UnityEngine;
 
 namespace OSML
@@ -65,6 +66,32 @@ namespace OSML
             furniture.previewPrefab = preview;
             furniture.displayStyle = displayStyle;
             furniture.displayRotationY = displayRotationY;
+
+            return furniture;
+        }
+
+        public static Furniture OSMLFurnitureToOS(OSMLFurniture furnitureData)
+        {
+            Furniture.BuildingArea[] _resArea = new Furniture.BuildingArea[furnitureData.restrictedAreas.Length];
+            for (int i = 0; i < furnitureData.restrictedAreas.Length; i++)
+            {
+                _resArea[i] = (Furniture.BuildingArea)furnitureData.restrictedAreas[i];
+            }
+
+            Furniture furniture = NewFurniture(
+                furnitureData.title,
+                furnitureData.image,
+                furnitureData.details,
+                (Furniture.Category)furnitureData.category,
+                furnitureData.priceOC,
+                furnitureData.priceRM,
+                furnitureData.prefab,
+                furnitureData.previewPrefab,
+                _resArea,
+                new List<Furniture.ReseourceItem>(),
+                (Furniture.DisplayStyle)furnitureData.displayStyle,
+                furnitureData.displayRotationY
+            );
 
             return furniture;
         }

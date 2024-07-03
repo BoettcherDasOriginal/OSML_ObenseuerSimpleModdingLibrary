@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using OSMLUnity;
 
 namespace OSML.Detour
 {
@@ -12,10 +13,38 @@ namespace OSML.Detour
         {
             if (!string.IsNullOrEmpty(obj.addressableAssetPath))
             {
-                if(obj.addressableAssetPath == "OSML")
+                if(obj.addressableAssetPath.StartsWith("OSML_Furniture"))
                 {
-                    Debug.Log("[OSML] IT JUST WORKS!!!!");
-                    return null;
+                    //string.Spli() doesn't work here -> obj.addressableAssetPath.Split("<#>"); == error
+                    string[] data = new string[3];
+                    string sep = "<#>";
+
+                    int first = obj.addressableAssetPath.IndexOf(sep);
+                    int last = obj.addressableAssetPath.LastIndexOf(sep);
+
+                    data[0] = obj.addressableAssetPath.Substring(0, first);
+                    data[1] = obj.addressableAssetPath.Substring(first + 3, last - first - 3);
+                    data[2] = obj.addressableAssetPath.Substring(last + 3);
+
+                    Debug.Log(data[0]);
+                    Debug.Log(data[1]);
+                    Debug.Log(data[2]);
+                    try
+                    {
+                        string name = data[1];
+                        string path = data[2];
+
+                        var assetBundle = AssetBundle.LoadFromFile(path);
+                        GameObject prefab = assetBundle.LoadAsset<GameObject>(name);
+
+                        OSMLFurniture osmlFurniture = prefab.GetComponent<OSMLFurniture>();
+                        return FurnitureCreator.OSMLFurnitureToOS(osmlFurniture);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log(e);
+                        return null;
+                    }
                 }
 
                 ScriptableObject result;

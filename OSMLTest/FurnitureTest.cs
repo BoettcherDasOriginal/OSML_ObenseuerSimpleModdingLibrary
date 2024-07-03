@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using OSML;
 using UnityEngine;
@@ -86,7 +88,7 @@ namespace OSMLTest
                 );
 
                 //f.addressableAssetPath = "Assets/Content/Prefabs/Building System/Furniture/Decoration/Flag of Sweden.asset";
-                f.addressableAssetPath = "OSML";
+                f.addressableAssetPath = $"OSML_Furniture<#>osml_box<#>{Path.Combine(Assembly.GetExecutingAssembly().Location, "osml_box")}";
 
                 f.GiveItem();
             }
