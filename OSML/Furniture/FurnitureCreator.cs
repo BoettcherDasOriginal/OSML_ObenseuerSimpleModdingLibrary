@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using OS;
-using OSMLUnity;
+using System.IO;
 using UnityEngine;
 
 namespace OSML
@@ -70,23 +68,34 @@ namespace OSML
             return furniture;
         }
 
-        public static Furniture OSMLFurnitureToOS(OSMLFurniture furnitureData)
+        public static Furniture FurnitureConfigToFurniture(FurnitureConfig furnitureData)
         {
+            if( furnitureData == null ) return null;
+
             Furniture.BuildingArea[] _resArea = new Furniture.BuildingArea[furnitureData.restrictedAreas.Length];
             for (int i = 0; i < furnitureData.restrictedAreas.Length; i++)
             {
                 _resArea[i] = (Furniture.BuildingArea)furnitureData.restrictedAreas[i];
             }
 
+            var fileStream = new FileStream(furnitureData.assetBundlePath, FileMode.Open, FileAccess.Read);
+            var assetBundle = AssetBundle.LoadFromStream(fileStream);
+
+            Sprite image = assetBundle.LoadAsset<Sprite>(furnitureData.imageName);
+            GameObject prefab = assetBundle.LoadAsset<GameObject>(furnitureData.prefabName);
+            GameObject previewPrefab = assetBundle.LoadAsset<GameObject>(furnitureData.previewPrefabName);
+
+            assetBundle.Unload(false);
+
             Furniture furniture = NewFurniture(
                 furnitureData.title,
-                furnitureData.image,
+                image,
                 furnitureData.details,
                 (Furniture.Category)furnitureData.category,
                 furnitureData.priceOC,
                 furnitureData.priceRM,
-                furnitureData.prefab,
-                furnitureData.previewPrefab,
+                prefab,
+                previewPrefab,
                 _resArea,
                 new List<Furniture.ReseourceItem>(),
                 (Furniture.DisplayStyle)furnitureData.displayStyle,

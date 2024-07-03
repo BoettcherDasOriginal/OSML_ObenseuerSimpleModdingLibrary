@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Newtonsoft.Json;
 using OSML;
 using UnityEngine;
 
@@ -18,79 +19,29 @@ namespace OSMLTest
             {
                 _trigger = false;
 
-                GameObject prefabStuff = new GameObject("stuff");
-                prefabStuff.AddComponent<MeshFilter>();
-                prefabStuff.AddComponent<MeshRenderer>();
+                string path = Path.Combine(Assembly.GetExecutingAssembly().Location.Substring(0, Assembly.GetExecutingAssembly().Location.Length - 13), "osml_box.json");
 
-                GameObject prePrefabStuff = new GameObject("stuff");
-                prePrefabStuff.AddComponent<MeshFilter>();
-                prePrefabStuff.AddComponent<MeshRenderer>();
-
-                Mesh mesh = new Mesh();
-
-                Vector3[] vertices = new[]
+                if (File.Exists(path))
                 {
-                new Vector3(0, 0, 0),
-                new Vector3(0, 1, 0),
-                new Vector3(1, 0, 0),
-                new Vector3(1, 1, 0),
-                };
-                mesh.vertices = vertices;
+                    try
+                    {
+                        string rawFurnitureConfig = File.ReadAllText(path);
 
-                Vector2[] uv = new[]
-                {
-                new Vector2(0, 0),
-                new Vector2(0, 1),
-                new Vector2(1, 0),
-                new Vector2(1, 1),
-                };
-                mesh.uv = uv;
+                        FurnitureConfig? furnitureConfig = JsonConvert.DeserializeObject<FurnitureConfig>(rawFurnitureConfig);
+                        if (furnitureConfig != null)
+                        {
+                            furnitureConfig.assetBundlePath = path.Substring(0, path.Length - Path.GetFileName(path).Length) + furnitureConfig.assetBundlePath;
+                            Furniture f = FurnitureCreator.FurnitureConfigToFurniture(furnitureConfig);
+                            f.addressableAssetPath = $"OSML_Furniture<#>{path}";
 
-                Vector3[] normals = new[]
-                {
-                -Vector3.forward,
-                -Vector3.forward,
-                -Vector3.forward,
-                -Vector3.forward,
-                };
-                mesh.normals = normals;
-
-                int[] triangles = new[]
-                {
-                0,1,2,
-                2,1,3
-                };
-                mesh.triangles = triangles;
-
-                Material mat = new Material(Shader.Find("Standard"));
-
-                prefabStuff.GetComponent<MeshFilter>().mesh = mesh;
-                prefabStuff.GetComponent<MeshRenderer>().material = mat;
-                prePrefabStuff.GetComponent<MeshFilter>().mesh = mesh;
-                prePrefabStuff.GetComponent<MeshRenderer>().material = mat;
-
-                prefabStuff.AddComponent<BoxCollider>();
-                var bc = prePrefabStuff.AddComponent<BoxCollider>();
-                bc.isTrigger = true;
-                var rb = prePrefabStuff.AddComponent<Rigidbody>();
-                rb.isKinematic = true;
-
-                Furniture f = FurnitureCreator.NewFurniture("SuperDupperTestDeco",
-                    Sprite.Create(new Texture2D(64, 64), new Rect(Vector2.zero, new Vector2(64, 64)), Vector2.zero),
-                    "Test,1,2,3...",
-                    Furniture.Category.Decoration,
-                    0,
-                    0,
-                    prefabStuff,
-                    prePrefabStuff,
-                    new Furniture.BuildingArea[] { },
-                    new System.Collections.Generic.List<Furniture.ReseourceItem>()
-                );
-
-                //f.addressableAssetPath = "Assets/Content/Prefabs/Building System/Furniture/Decoration/Flag of Sweden.asset";
-                f.addressableAssetPath = $"OSML_Furniture<#>osml_box<#>{Path.Combine(Assembly.GetExecutingAssembly().Location, "osml_box")}";
-
-                f.GiveItem();
+                            f.GiveItem();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError(e);
+                    }
+                }
             }
         }
     }

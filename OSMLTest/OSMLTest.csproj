@@ -13,11 +13,17 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\.deps\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\.deps\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="OSLoader">
       <HintPath>..\.deps\OSLoader.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Addressables">
       <HintPath>..\.deps\Unity.Addressables.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>..\.deps\UnityEngine.AssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\.deps\UnityEngine.CoreModule.dll</HintPath>

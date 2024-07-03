@@ -1,42 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Text;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
 using UnityEngine;
 
-namespace OSMLUnity
+namespace OSML
 {
-    public class OSMLFurniture : MonoBehaviour
+    public class FurnitureConfig
     {
-        [Header("Info")]
         public string title;
-
-        public Sprite image;
-
         public string details;
 
-        public FurnitureCategory category;
-
         public int priceOC;
-
         public int priceRM;
 
-        [Tooltip("Allowed to put everywhere if empty")]
+        public string assetBundlePath;
+        public string imageName;
+        public string prefabName;
+        public string previewPrefabName;
+
+        public FurnitureCategory category;
         public FurnitureBuildingArea[] restrictedAreas;
-
-        // [Header("Dismantle")]
-        // public List<Furniture.ReseourceItem> dismantleItems;
-
-        [Header("Prefab")]
-        public GameObject prefab;
-
-        public GameObject previewPrefab;
-
         public FurnitureDisplayStyle displayStyle = FurnitureDisplayStyle.Default;
-
         public int displayRotationY = 0;
+
+        // public List<Furniture.ReseourceItem> dismantleItems;
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum FurnitureCategory
     {
         All,
@@ -64,6 +56,7 @@ namespace OSMLUnity
         Posters
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum FurnitureDisplayStyle
     {
         Default,
@@ -71,6 +64,7 @@ namespace OSMLUnity
         Ceiling
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum FurnitureBuildingArea
     {
         None,

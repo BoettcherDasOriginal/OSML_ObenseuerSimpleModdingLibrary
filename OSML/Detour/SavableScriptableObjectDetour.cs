@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using OSMLUnity;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace OSML.Detour
 {
@@ -15,34 +17,30 @@ namespace OSML.Detour
             {
                 if(obj.addressableAssetPath.StartsWith("OSML_Furniture"))
                 {
-                    //string.Spli() doesn't work here -> obj.addressableAssetPath.Split("<#>"); == error
-                    string[] data = new string[3];
+                    //string.Split() doesn't work here -> obj.addressableAssetPath.Split("<#>"); == error
+
                     string sep = "<#>";
+                    string path = obj.addressableAssetPath.Substring(obj.addressableAssetPath.IndexOf(sep) + 3);
 
-                    int first = obj.addressableAssetPath.IndexOf(sep);
-                    int last = obj.addressableAssetPath.LastIndexOf(sep);
-
-                    data[0] = obj.addressableAssetPath.Substring(0, first);
-                    data[1] = obj.addressableAssetPath.Substring(first + 3, last - first - 3);
-                    data[2] = obj.addressableAssetPath.Substring(last + 3);
-
-                    Debug.Log(data[0]);
-                    Debug.Log(data[1]);
-                    Debug.Log(data[2]);
                     try
                     {
-                        string name = data[1];
-                        string path = data[2];
+                        if(File.Exists(path))
+                        {
+                            string rawFurnitureConfig = File.ReadAllText(path);
 
-                        var assetBundle = AssetBundle.LoadFromFile(path);
-                        GameObject prefab = assetBundle.LoadAsset<GameObject>(name);
+                            FurnitureConfig furnitureConfig = JsonConvert.DeserializeObject<FurnitureConfig>(rawFurnitureConfig);
+                            furnitureConfig.assetBundlePath = path.Substring(0, path.Length - Path.GetFileName(path).Length) + furnitureConfig.assetBundlePath;
+                            Furniture f = FurnitureCreator.FurnitureConfigToFurniture(furnitureConfig);
+                            f.addressableAssetPath = $"OSML_Furniture<#>{path}";
 
-                        OSMLFurniture osmlFurniture = prefab.GetComponent<OSMLFurniture>();
-                        return FurnitureCreator.OSMLFurnitureToOS(osmlFurniture);
+                            return f;
+                        }
+
+                        return null;
                     }
                     catch (Exception e)
                     {
-                        Debug.Log(e);
+                        Debug.LogError(e);
                         return null;
                     }
                 }
