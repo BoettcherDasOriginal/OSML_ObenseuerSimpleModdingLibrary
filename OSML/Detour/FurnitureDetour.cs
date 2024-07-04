@@ -6,8 +6,10 @@ using Newtonsoft.Json;
 
 namespace OSML.Detour
 {
-    public static class SavableScriptableObjectDetour
+    public static class FurnitureDetour
     {
+        #region SavableScriptableObject
+
         static ScriptableObject ReplacementLoadFromPath(this SavableScriptableObject obj)
         {
             if (!string.IsNullOrEmpty(obj.addressableAssetPath))
@@ -27,6 +29,11 @@ namespace OSML.Detour
                             furnitureConfig.assetBundlePath = path.Substring(0, path.Length - Path.GetFileName(path).Length) + furnitureConfig.assetBundlePath;
                             Furniture f = FurnitureCreator.FurnitureConfigToFurniture(furnitureConfig);
                             f.addressableAssetPath = $"OSML_Furniture<#>{path}";
+
+                            if(PublicVars.furnitureHandlers.ContainsKey(f.title))
+                            {
+                                f = PublicVars.furnitureHandlers[f.title].Invoke(f);
+                            }
 
                             return f;
                         }
@@ -96,5 +103,16 @@ namespace OSML.Detour
                 dst: DetourUtility.MethodInfoForMethodCall(() => ReplacementLoadFromPath(default))
             );
         }
+
+        #endregion
+
+        #region FurnitureShop
+
+        public static void PatchFurnitureShop()
+        {
+            
+        }
+
+        #endregion
     }
 }
