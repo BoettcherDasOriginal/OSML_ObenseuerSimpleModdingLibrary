@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using System.IO;
@@ -17,8 +14,6 @@ namespace OSML.Detour
             {
                 if(obj.addressableAssetPath.StartsWith("OSML_Furniture"))
                 {
-                    //string.Split() doesn't work here -> obj.addressableAssetPath.Split("<#>"); == error
-
                     string sep = "<#>";
                     string path = obj.addressableAssetPath.Substring(obj.addressableAssetPath.IndexOf(sep) + 3);
 

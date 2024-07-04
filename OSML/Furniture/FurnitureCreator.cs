@@ -7,22 +7,6 @@ namespace OSML
 {
     public class FurnitureCreator
     {
-        /// <summary>
-        /// Creates a new Furniture (Just needs your raw furniture, no particular structure needed!)
-        /// </summary>
-        /// <param name="title">The name of your furniture</param>
-        /// <param name="image">An image for the build menu</param>
-        /// <param name="details">Description of your furniture</param>
-        /// <param name="category">Is this a Table or what?</param>
-        /// <param name="priceOC"></param>
-        /// <param name="priceRM"></param>
-        /// <param name="furniturePrefab">your raw furniture when build</param>
-        /// <param name="furniturePreviewPrefab">your raw furniture when "preview"</param>
-        /// <param name="restrictedArea">Allowed to put everywhere if empty</param>
-        /// <param name="dismantleItems">?</param>
-        /// <param name="displayStyle"></param>
-        /// <param name="displayRotationY"></param>
-        /// <returns></returns>
         public static Furniture NewFurniture(string title, Sprite image, string details, Furniture.Category category, int priceOC, int priceRM, GameObject furniturePrefab, GameObject furniturePreviewPrefab, Furniture.BuildingArea[] restrictedArea, List<Furniture.ReseourceItem> dismantleItems, Furniture.DisplayStyle displayStyle = Furniture.DisplayStyle.Default, int displayRotationY = 0)
         {
             Furniture furniture = ScriptableObject.CreateInstance<Furniture>();
@@ -68,16 +52,23 @@ namespace OSML
             return furniture;
         }
 
+        /// <summary>
+        /// Uses a FurnitureConfig to create a Furniture
+        /// </summary>
+        /// <param name="furnitureData">Deserialized ur-furniture-name.json</param>
+        /// <returns></returns>
         public static Furniture FurnitureConfigToFurniture(FurnitureConfig furnitureData)
         {
             if( furnitureData == null ) return null;
 
+            // Convert OSML.FurnitureBuildingArea to OS.Furniture.BuildingArea
             Furniture.BuildingArea[] _resArea = new Furniture.BuildingArea[furnitureData.restrictedAreas.Length];
             for (int i = 0; i < furnitureData.restrictedAreas.Length; i++)
             {
                 _resArea[i] = (Furniture.BuildingArea)furnitureData.restrictedAreas[i];
             }
 
+            // Get the AssetBundle and loads the needed Assets
             var fileStream = new FileStream(furnitureData.assetBundlePath, FileMode.Open, FileAccess.Read);
             var assetBundle = AssetBundle.LoadFromStream(fileStream);
 
@@ -87,6 +78,7 @@ namespace OSML
 
             assetBundle.Unload(false);
 
+            // Creates the Furniture
             Furniture furniture = NewFurniture(
                 furnitureData.title,
                 image,
