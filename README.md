@@ -9,9 +9,6 @@
 [![Issues](https://img.shields.io/github/issues/BoettcherDasOriginal/OSML_ObenseuerSimpleModdingLibrary)](https://github.com/BoettcherDasOriginal/OSML_ObenseuerSimpleModdingLibrary/issues)
 [![Pull requests](https://img.shields.io/github/issues-pr/BoettcherDasOriginal/OSML_ObenseuerSimpleModdingLibrary)](https://github.com/BoettcherDasOriginal/OSML_ObenseuerSimpleModdingLibrary/pulls)
 
-
- A library mod for simpler modding the game Obenseuer using its unoffical mod loader [OSLoader](https://github.com/Ierdna100/OSLoader)
-
 **Obenseuer Simple Modding Library** is a powerful and user-friendly library mod designed to simplify the process of modding the game [Obenseuer](https://store.steampowered.com/app/951240/Obenseuer/) using its unofficial mod loader, [OSLoader](https://github.com/Ierdna100/OSLoader). 
 Written in C# and targeting .NET Standard 2.1, this library provides a streamlined framework for mod developers to enhance and extend the game's functionality with ease.
 
