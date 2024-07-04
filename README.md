@@ -17,6 +17,8 @@ Written in C# and targeting .NET Standard 2.1, this library provides a streamlin
 - **Simplified API:** A straightforward API that abstracts away the complexities of modding, allowing developers to focus on their creative ideas.
 - **Extensibility:** Designed to be extended with additional features and functionalities, making it a robust foundation for your modding projects.
 - **Furniture Creation:** Easily create and add custom furniture to the game, complete with all necessary attributes and behaviors for saving and loading.
+- **Detour Utility:**  A Detour Utility Library from [tryfinally.dev](https://tryfinally.dev/detours-redirecting-csharp-methods-at-runtime)
+- **Public Vars:** Public Vars are public OSML variables which will help your mod to add content to *Obenseuer* without conflicts!
 - *and more soon!*
 
 
