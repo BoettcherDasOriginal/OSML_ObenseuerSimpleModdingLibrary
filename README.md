@@ -21,8 +21,9 @@ Written in C# and targeting .NET Standard 2.1, this library provides a streamlin
 
 
 ## Getting Started
-- [Installation Guide]() *WIP*
-- [Library Documentation]() *WIP*
+- [Wiki](https://github.com/BoettcherDasOriginal/OSML_ObenseuerSimpleModdingLibrary/wiki)
+- [Installation Guide](https://github.com/BoettcherDasOriginal/OSML_ObenseuerSimpleModdingLibrary/wiki/Installation-Guide)
+- [Library Documentation](https://github.com/BoettcherDasOriginal/OSML_ObenseuerSimpleModdingLibrary/wiki/Library-Documentation)
 
 
 ## Contributing
