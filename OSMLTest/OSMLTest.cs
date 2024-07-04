@@ -15,6 +15,8 @@ namespace OSMLTest
             logger.Log("Hi!");
 
             SceneManager.sceneLoaded += OnSceneLoaded;
+
+            PublicVars.AddFurnitureHandlers(typeof(Handler));
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
