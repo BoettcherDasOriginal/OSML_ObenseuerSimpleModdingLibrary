@@ -151,6 +151,16 @@ namespace OSML.Detour
             methodInfo.Invoke(fs, new object[] {});
 
             Debug.Log($"[OSML] Restocking '{(fs.title != "" ? fs.title : "One Stop Shop")}'");
+
+            FurnitureShopName name = (fs.title == "" ? FurnitureShopName.OneStopShop : (fs.title == "Möbelmann Furnitures" ? FurnitureShopName.MoebelmannFurnitures : (fs.title == "Jonasson's Shop" ? FurnitureShopName.SamuelJonasson : FurnitureShopName.None)));
+
+            if(name != FurnitureShopName.None)
+            {
+                foreach (var pair in PublicVars.furnitureShopRestockHandlers)
+                {
+                    fs.availableFurnitures.AddRange(pair.Value.Invoke(name));
+                }
+            }
         }
 
         #endregion

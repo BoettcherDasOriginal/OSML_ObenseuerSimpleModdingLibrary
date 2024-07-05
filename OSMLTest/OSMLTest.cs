@@ -22,6 +22,7 @@ namespace OSMLTest
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             PublicVars.AddFurnitureHandlers(typeof(Handler));
+            PublicVars.AddFurnitureShopRestockHandlers(typeof(Handler));
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)

@@ -16,6 +16,7 @@ namespace OSML
 
             new PublicVars();
             PublicVars.furnitureHandlers = new Dictionary<string, PublicVars.FurnitureHandler>();
+            PublicVars.furnitureShopRestockHandlers = new Dictionary<string, PublicVars.FurnitureShopRestockHandler>();
 
             logger.Log("Initializing OSML...");
 
@@ -72,8 +73,10 @@ namespace OSML
         public bool firstUpdateFinished;
 
         public delegate Furniture FurnitureHandler(Furniture furniture);
+        public delegate List<BuildingSystem.FurnitureInfo> FurnitureShopRestockHandler(FurnitureShopName name);
 
         public static Dictionary<string, FurnitureHandler> furnitureHandlers;
+        public static Dictionary<string, FurnitureShopRestockHandler> furnitureShopRestockHandlers;
 
         public PublicVars()
         {
@@ -111,6 +114,43 @@ namespace OSML
                 else
                 {
                     Debug.LogError($"[OSML] InvalidHandlerSignatureException: '{method.DeclaringType}.{method.Name}' doesn't match any acceptable furniture handler method signatures! Furniture handler methods should have a 'Furniture' parameter and should return 'Furniture'.");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool AddFurnitureShopRestockHandlers(Type type)
+        {
+            MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance).Where(m => m.GetCustomAttributes(typeof(FurnitureShopRestockHandlerAttribute), false).Length > 0).ToArray();
+
+            foreach (MethodInfo method in methods)
+            {
+                FurnitureShopRestockHandlerAttribute attribute = method.GetCustomAttribute<FurnitureShopRestockHandlerAttribute>();
+
+                if (!method.IsStatic)
+                {
+                    Debug.LogError($"[OSML] '{method.DeclaringType.Name}.{method.Name}' is an instance method, but furniture shop restock handler methods must be static");
+                    return false;
+                }
+
+                Delegate furnitureHandler = Delegate.CreateDelegate(typeof(FurnitureShopRestockHandler), method, false);
+                if (furnitureHandler != null)
+                {
+                    if (furnitureShopRestockHandlers.ContainsKey(attribute.HandlerUID))
+                    {
+                        Debug.LogError($"[OSML] DuplicateHandlerException: '{method.DeclaringType}.{method.Name}' Only one handler method is allowed per UID!");
+                        return false;
+                    }
+                    else
+                    {
+                        furnitureShopRestockHandlers.Add(attribute.HandlerUID, (FurnitureShopRestockHandler)furnitureHandler);
+                    }
+                }
+                else
+                {
+                    Debug.LogError($"[OSML] InvalidHandlerSignatureException: '{method.DeclaringType}.{method.Name}' doesn't match any acceptable furniture shop restock handler method signatures! Furniture handler methods should have a 'FurnitureShopName' parameter and should return 'List<BuildingSystem.FurnitureInfo>'.");
                     return false;
                 }
             }
