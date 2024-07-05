@@ -55,6 +55,10 @@ namespace OSML
         /// </summary>
         public FurnitureDisplayStyle displayStyle = FurnitureDisplayStyle.Default;
         /// <summary>
+        /// Restricted places to build (wall, floor, etc)
+        /// </summary>
+        public FurniturePlaceType placeType;
+        /// <summary>
         /// Display rotation on the Y-Achses
         /// </summary>
         public int displayRotationY = 0;
@@ -109,5 +113,15 @@ namespace OSML
         Workshop,
         Outside,
         Greenhouse
+    }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum FurniturePlaceType
+    {
+        all,
+        floor,
+        wall,
+        ceiling,
+        floorAndWall
     }
 }

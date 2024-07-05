@@ -7,7 +7,7 @@ namespace OSML
 {
     public class FurnitureCreator
     {
-        public static Furniture NewFurniture(string title, Sprite image, string details, Furniture.Category category, int priceOC, int priceRM, GameObject furniturePrefab, GameObject furniturePreviewPrefab, Furniture.BuildingArea[] restrictedArea, List<Furniture.ReseourceItem> dismantleItems, Furniture.DisplayStyle displayStyle = Furniture.DisplayStyle.Default, int displayRotationY = 0)
+        public static Furniture NewFurniture(string title, Sprite image, string details, Furniture.Category category, int priceOC, int priceRM, GameObject furniturePrefab, GameObject furniturePreviewPrefab, Furniture.BuildingArea[] restrictedArea, List<Furniture.ReseourceItem> dismantleItems, FurniturePlaceType placeType, Furniture.DisplayStyle displayStyle = Furniture.DisplayStyle.Default, int displayRotationY = 0)
         {
             Furniture furniture = ScriptableObject.CreateInstance<Furniture>();
 
@@ -27,7 +27,9 @@ namespace OSML
             GameObject preview = new GameObject($"{title}-Preview");
 
             GameObject previewRotate = new GameObject("rotate");
-            previewRotate.AddComponent<ObjectPreview>();
+            ObjectPreview objectPreview =  previewRotate.AddComponent<ObjectPreview>();
+            var pType = objectPreview.GetType().GetField("type", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            pType.SetValue(objectPreview, (PlaceType)placeType);
             previewRotate.transform.parent = preview.transform;
 
             //furniturePreviewPrefab.AddComponent<InsideTrigger>();
@@ -90,6 +92,7 @@ namespace OSML
                 previewPrefab,
                 _resArea,
                 new List<Furniture.ReseourceItem>(),
+                furnitureData.placeType,
                 (Furniture.DisplayStyle)furnitureData.displayStyle,
                 furnitureData.displayRotationY
             );
