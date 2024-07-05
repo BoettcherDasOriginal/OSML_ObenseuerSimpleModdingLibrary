@@ -34,16 +34,6 @@ namespace OSMLTest
                             Furniture f = FurnitureCreator.FurnitureConfigToFurniture(furnitureConfig);
                             f.addressableAssetPath = $"OSML_Furniture<#>{path}";
 
-                            /*
-                            BuildingSystem.FurnitureInfo furnitureInfo = BuildingSystem.instance.availableFurnitures.Find((BuildingSystem.FurnitureInfo fi) => fi.furniture.title == f.title && fi.gameObject == null);
-                            if(furnitureInfo != null)
-                            {
-                                furnitureInfo.amount += 1;
-                            }
-                            else
-                            {
-                                f.GiveItem();
-                            }*/
                             f.GiveItem();
                         }
                     }

@@ -24,6 +24,7 @@ namespace OSML
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             Detour.FurnitureDetour.PatchSavableScriptableObject();
+            Detour.FurnitureDetour.PatchFurnitureShop();
             Detour.FurnitureDetour.PatchBuildingSystem();
 
             logger.Log($"OSML version {config.version} Initialized!");
