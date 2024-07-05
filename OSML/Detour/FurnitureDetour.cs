@@ -118,15 +118,12 @@ namespace OSML.Detour
                 dst: typeof(FurnitureDetour).GetMethod("NewFSAddFurniture", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
             );
 
-            /* Causes silent Crash
-             * -> methodInfo.Invoke(fs, null); or methodInfo.Invoke(fs, new Object[] {});
-             * 
             Debug.Log("[OSML] Trying to detour FurnitureShop.Restock()!");
 
             DetourUtility.TryDetourFromTo(
                 src: typeof(FurnitureShop).GetMethod("Restock", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance),
                 dst: typeof(FurnitureDetour).GetMethod("NewFSRestock", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
-            );*/
+            );
         }
 
         static bool NewFSAddFurniture(this FurnitureShop fs, Furniture furniture, int amount = 1)
@@ -150,8 +147,8 @@ namespace OSML.Detour
         {
             fs.MoneyRestock();
 
-            MethodInfo methodInfo = typeof(FurnitureShop).GetMethod("Restock", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
-            methodInfo.Invoke(fs, null);
+            MethodInfo methodInfo = typeof(FurnitureShop).GetMethod("UpdateShopItems", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+            methodInfo.Invoke(fs, new object[] {});
 
             Debug.Log($"[OSML] Restocking '{(fs.title != "" ? fs.title : "One Stop Shop")}'");
         }
