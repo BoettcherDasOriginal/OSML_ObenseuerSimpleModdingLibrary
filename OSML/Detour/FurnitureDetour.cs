@@ -30,9 +30,9 @@ namespace OSML.Detour
                             Furniture f = FurnitureCreator.FurnitureConfigToFurniture(furnitureConfig);
                             f.addressableAssetPath = $"OSML_Furniture<#>{path}";
 
-                            if(PublicVars.furnitureHandlers.ContainsKey(f.title))
+                            if (PublicVars.furnitureHandlers.TryGetValue(f.title, out PublicVars.FurnitureHandler handler))
                             {
-                                f = PublicVars.furnitureHandlers[f.title].Invoke(f);
+                                f = handler.Invoke(f);
                             }
 
                             return f;
