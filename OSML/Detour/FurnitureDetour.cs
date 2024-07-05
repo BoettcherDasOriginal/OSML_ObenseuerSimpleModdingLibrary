@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using System.IO;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace OSML.Detour
 {
@@ -110,7 +111,89 @@ namespace OSML.Detour
 
         public static void PatchFurnitureShop()
         {
-            
+            Debug.Log("[OSML] Trying to detour FurnitureShop.AddFurniture()!");
+
+            DetourUtility.TryDetourFromTo(
+                src: typeof(FurnitureShop).GetMethod("AddFurniture", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance),
+                dst: typeof(FurnitureDetour).GetMethod("NewFSAddFurniture", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
+            );
+        }
+
+        static bool NewFSAddFurniture(this FurnitureShop fs, Furniture furniture, int amount = 1)
+        {
+            BuildingSystem.FurnitureInfo furnitureInfo = fs.availableFurnitures.Find((BuildingSystem.FurnitureInfo f) => f.furniture.title == furniture.title);
+            if (furnitureInfo == null || furnitureInfo.furniture == null)
+            {
+                TaskItem taskItem = (TaskItem)ScriptableObject.CreateInstance(typeof(TaskItem));
+                taskItem.itemName = furniture.title;
+                taskItem.itemDetails = furniture.details;
+                taskItem.image = furniture.image;
+                taskItem.itemType = TaskItem.Type.Furnitures;
+                fs.availableFurnitures.Add(new BuildingSystem.FurnitureInfo(furniture, taskItem, null, amount, null));
+                return true;
+            }
+            furnitureInfo.amount += amount;
+            return true;
+        }
+
+        #endregion
+
+        #region BuildingSystem
+
+        public static void PatchBuildingSystem()
+        {
+            Debug.Log("[OSML] Trying to detour BuildingSystem.AddFurniture()!");
+
+            DetourUtility.TryDetourFromTo(
+                src: typeof(BuildingSystem).GetMethod("AddFurniture", BindingFlags.Public | BindingFlags.Instance),
+                dst: typeof(FurnitureDetour).GetMethod("NewBSAddFurniture", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
+            );
+        }
+
+        static bool NewBSAddFurniture(this BuildingSystem bs,Furniture furniture, GameObject gameObject, out GameObject savedGameObject, int amount = 1)
+        {
+            BuildingSystem.FurnitureInfo furnitureInfo = bs.availableFurnitures.Find((BuildingSystem.FurnitureInfo f) => f.furniture.title == furniture.title && f.gameObject == null);
+            if (gameObject != null)
+            {
+                gameObject.transform.SetParent((bs.inventoryLocation != null) ? bs.inventoryLocation : bs.transform);
+                gameObject.transform.localPosition = Vector3.zero;
+                if (!bs.HasSaveableContent(gameObject))
+                {
+                    UnityEngine.Object.Destroy(gameObject);
+                    gameObject = null;
+                }
+            }
+            savedGameObject = gameObject;
+            BuildingSystem.FurnitureInfo info = bs.availableFurnitures.Find((BuildingSystem.FurnitureInfo f) => f.furniture.title == furniture.title);
+            TaskItem taskItem = BSAddTaskItem(furniture, info, amount);
+            if (furnitureInfo == null || furnitureInfo.furniture == null || gameObject != null)
+            {
+                bs.availableFurnitures.Add(new BuildingSystem.FurnitureInfo(furniture, taskItem, gameObject, amount, null));
+                bs.availableFurnitures.Sort((BuildingSystem.FurnitureInfo slot1, BuildingSystem.FurnitureInfo slot2) => slot1.furniture.name.CompareTo(slot2.furniture.name));
+                return true;
+            }
+            furnitureInfo.amount += amount;
+            return true;
+        }
+
+        public static TaskItem BSAddTaskItem(Furniture furniture, BuildingSystem.FurnitureInfo info, int amount)
+        {
+            TaskItem taskItem;
+            if (info == null || info.furniture == null)
+            {
+                taskItem = (TaskItem)ScriptableObject.CreateInstance(typeof(TaskItem));
+                taskItem.itemName = furniture.title;
+                taskItem.itemDetails = furniture.details;
+                taskItem.image = furniture.image;
+                taskItem.itemType = TaskItem.Type.Furnitures;
+                TaskItemsManager.instance.AddTaskItem(taskItem, amount, false, null, false);
+            }
+            else
+            {
+                taskItem = info.taskItem;
+                TaskItemsManager.instance.AddTaskItem(info.taskItem, amount, false, null, false);
+            }
+            return taskItem;
         }
 
         #endregion
