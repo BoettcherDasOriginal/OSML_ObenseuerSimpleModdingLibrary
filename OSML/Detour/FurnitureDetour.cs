@@ -118,7 +118,9 @@ namespace OSML.Detour
                 dst: typeof(FurnitureDetour).GetMethod("NewFSAddFurniture", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
             );
 
-            /* Apprently Unity doesnt like this :(
+            /* Causes silent Crash
+             * -> methodInfo.Invoke(fs, null); or methodInfo.Invoke(fs, new Object[] {});
+             * 
             Debug.Log("[OSML] Trying to detour FurnitureShop.Restock()!");
 
             DetourUtility.TryDetourFromTo(
