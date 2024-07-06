@@ -28,8 +28,7 @@ namespace OSML
 
             GameObject previewRotate = new GameObject("rotate");
             ObjectPreview objectPreview =  previewRotate.AddComponent<ObjectPreview>();
-            var pType = objectPreview.GetType().GetField("type", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            pType.SetValue(objectPreview, (PlaceType)placeType);
+            objectPreview.SetOrientationType((PlaceType)placeType);
             previewRotate.transform.parent = preview.transform;
 
             //furniturePreviewPrefab.AddComponent<InsideTrigger>();
