@@ -72,10 +72,31 @@ namespace OSML
             // Get the AssetBundle and loads the needed Assets
             var fileStream = new FileStream(furnitureData.assetBundlePath, FileMode.Open, FileAccess.Read);
             var assetBundle = AssetBundle.LoadFromStream(fileStream);
+            if( assetBundle == null )
+            {
+                Debug.LogError($"[OSML] Error while creating furniture '{furnitureData.title}': couldn't get AssetBundle at '{furnitureData.assetBundlePath}'!");
+                return null;
+            }
 
             Sprite image = assetBundle.LoadAsset<Sprite>(furnitureData.imageName);
             GameObject prefab = assetBundle.LoadAsset<GameObject>(furnitureData.prefabName);
             GameObject previewPrefab = assetBundle.LoadAsset<GameObject>(furnitureData.previewPrefabName);
+
+            if(image == null)
+            {
+                Debug.LogError($"[OSML] Error while creating furniture '{furnitureData.title}': couldn't get image '{furnitureData.imageName}'!");
+                return null;
+            }
+            if (prefab == null)
+            {
+                Debug.LogError($"[OSML] Error while creating furniture '{furnitureData.title}': couldn't get prefab '{furnitureData.prefabName}'!");
+                return null;
+            }
+            if (previewPrefab == null)
+            {
+                Debug.LogError($"[OSML] Error while creating furniture '{furnitureData.title}': couldn't get preview prefab '{furnitureData.previewPrefabName}'!");
+                return null;
+            }
 
             assetBundle.Unload(false);
 
