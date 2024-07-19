@@ -20,7 +20,7 @@ namespace OSML
 
             logger.Log("Initializing OSML...");
 
-            PublicVars.instance.version = config.version;
+            PublicVars.instance.version = info.Version.ToString();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -28,7 +28,7 @@ namespace OSML
             Detour.FurnitureDetour.PatchFurnitureShop();
             Detour.FurnitureDetour.PatchBuildingSystem();
 
-            logger.Log($"OSML version {config.version} Initialized!");
+            logger.Log($"OSML version {info.Version.ToString()} Initialized!");
             PublicVars.instance.isInitialized = true;
         }
 
