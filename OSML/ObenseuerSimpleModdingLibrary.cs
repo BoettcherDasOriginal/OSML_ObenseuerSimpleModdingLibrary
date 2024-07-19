@@ -84,6 +84,11 @@ namespace OSML
             else return;
         }
 
+        /// <summary>
+        /// Gets all FurnitureHandler methods defined in the given Type: type and registers them for the Handler callback
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static bool AddFurnitureHandlers(Type type)
         {
             MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance).Where(m => m.GetCustomAttributes(typeof(FurnitureHandlerAttribute), false).Length > 0).ToArray();
@@ -121,6 +126,11 @@ namespace OSML
             return true;
         }
 
+        /// <summary>
+        /// Gets all FurnitureShopRestockHandler methods defined in the given Type: type and registers them for the Handler callback
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static bool AddFurnitureShopRestockHandlers(Type type)
         {
             MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance).Where(m => m.GetCustomAttributes(typeof(FurnitureShopRestockHandlerAttribute), false).Length > 0).ToArray();
