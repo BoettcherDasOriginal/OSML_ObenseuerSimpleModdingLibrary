@@ -1,4 +1,4 @@
-# Upcoming
+# v0.1.0 (July 19th 2024)
 ## General
 - updated to OSLoader v0.1.0-beta
 ## Detour
