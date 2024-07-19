@@ -1,6 +1,0 @@
-{
-    "name": "OSML",
-    "description": "(O)benseuer (S)imple (M)odding (L)ibrary",
-    "loadOnStart": true,
-    "version": "v0.1.0-alpha"
-}

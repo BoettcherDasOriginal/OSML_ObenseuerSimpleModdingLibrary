@@ -1,0 +1,9 @@
+{
+    "modType": 1,
+    "name": "OSML",
+    "description": "(O)benseuer (S)imple (M)odding (L)ibrary",
+    "loadOnStart": true,
+    "repositoryUrl": "https://github.com/BoettcherDasOriginal/OSML_ObenseuerSimpleModdingLibrary",
+    "modUrl": "https://github.com/BoettcherDasOriginal/OSML_ObenseuerSimpleModdingLibrary",
+    "version": "0.1.0"
+}

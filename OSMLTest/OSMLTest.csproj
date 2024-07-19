@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
-    <Copy SourceFiles="config.json" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="info.json" DestinationFolder="$(OutDir)" />
   </Target>
 
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">

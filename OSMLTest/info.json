@@ -1,6 +1,7 @@
 {
+    "modType": 2,
     "name": "OSML-Test",
     "description": "Mod for testing some OSML componets",
     "loadOnStart": true,
-    "version": "v1.0.0"
+    "version": "1.0.0"
 }
