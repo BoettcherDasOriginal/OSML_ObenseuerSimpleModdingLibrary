@@ -1,3 +1,13 @@
+# Upcoming
+## Detour
+- added ItemDatabase.DeSerialize() detour
+- added ItemOperations.SetCollectibleItemValues() detour
+- added Item.ItemAppearance.LoadSprite() detour
+- added Item.ItemAppearance.Loadprefab() detour
+## Items
+- added ``Items.json`` loading without needing to edit the original one
+- added ItemDatabase Handler
+
 # v0.1.0 (July 19th 2024)
 ## General
 - updated to OSLoader v0.1.0-beta

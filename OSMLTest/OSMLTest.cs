@@ -23,6 +23,8 @@ namespace OSMLTest
 
             PublicVars.AddFurnitureHandlers(typeof(Handler));
             PublicVars.AddFurnitureShopRestockHandlers(typeof(Handler));
+
+            PublicVars.itemConfigPaths.Add("OSMLTest", Path.Combine(Assembly.GetExecutingAssembly().Location.Substring(0, Assembly.GetExecutingAssembly().Location.Length - 13), "Items.json"));
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)

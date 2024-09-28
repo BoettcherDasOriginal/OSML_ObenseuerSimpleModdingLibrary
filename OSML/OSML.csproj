@@ -9,6 +9,9 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\.deps\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\.deps\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\.deps\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -29,6 +32,9 @@
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\.deps\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>..\.deps\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>..\.deps\UnityEngine.InputLegacyModule.dll</HintPath>

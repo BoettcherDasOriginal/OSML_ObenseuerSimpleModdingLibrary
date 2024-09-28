@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using OSLoader;
@@ -18,6 +19,10 @@ namespace OSML
             PublicVars.furnitureHandlers = new Dictionary<string, PublicVars.FurnitureHandler>();
             PublicVars.furnitureShopRestockHandlers = new Dictionary<string, PublicVars.FurnitureShopRestockHandler>();
 
+            PublicVars.itemDatabaseHandlers = new Dictionary<string, PublicVars.ItemDatabaseHandler>();
+
+            PublicVars.itemConfigPaths = new Dictionary<string, string>();
+
             logger.Log("Initializing OSML...");
 
             PublicVars.instance.version = info.Version.ToString();
@@ -27,6 +32,10 @@ namespace OSML
             Detour.FurnitureDetour.PatchSavableScriptableObject();
             Detour.FurnitureDetour.PatchFurnitureShop();
             Detour.FurnitureDetour.PatchBuildingSystem();
+
+            Detour.ItemDetour.PatchItemDBDeSerialize();
+            Detour.ItemDetour.PatchSetCollectibleItemValues();
+            Detour.ItemDetour.PatchItemAppearanceALL();
 
             logger.Log($"OSML version {info.Version.ToString()} Initialized!");
             PublicVars.instance.isInitialized = true;
@@ -72,11 +81,20 @@ namespace OSML
         /// </summary>
         public bool firstUpdateFinished;
 
+        /// <summary>
+        /// itemConfigPaths.Add(Modname, 'Items.json' path)
+        /// </summary>
+        public static Dictionary<string, string> itemConfigPaths;
+
         public delegate Furniture FurnitureHandler(Furniture furniture);
         public delegate List<BuildingSystem.FurnitureInfo> FurnitureShopRestockHandler(FurnitureShopName name);
 
         public static Dictionary<string, FurnitureHandler> furnitureHandlers;
         public static Dictionary<string, FurnitureShopRestockHandler> furnitureShopRestockHandlers;
+
+        public delegate List<Item> ItemDatabaseHandler(List<Item> db);
+
+        public static Dictionary<string, ItemDatabaseHandler> itemDatabaseHandlers;
 
         public PublicVars()
         {
@@ -161,6 +179,48 @@ namespace OSML
                 else
                 {
                     Debug.LogError($"[OSML] InvalidHandlerSignatureException: '{method.DeclaringType}.{method.Name}' doesn't match any acceptable furniture shop restock handler method signatures! Furniture handler methods should have a 'FurnitureShopName' parameter and should return 'List<BuildingSystem.FurnitureInfo>'.");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Gets all ItemDatabaseHandler methods defined in the given Type: type and registers them for the Handler callback
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool AddItemDatabaseHandlers(Type type)
+        {
+            MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance).Where(m => m.GetCustomAttributes(typeof(ItemDatabaseHandlerAttribute), false).Length > 0).ToArray();
+
+            foreach (MethodInfo method in methods)
+            {
+                ItemDatabaseHandlerAttribute attribute = method.GetCustomAttribute<ItemDatabaseHandlerAttribute>();
+
+                if (!method.IsStatic)
+                {
+                    Debug.LogError($"[OSML] '{method.DeclaringType.Name}.{method.Name}' is an instance method, but Item Database handler methods must be static");
+                    return false;
+                }
+
+                Delegate itemDBHandler = Delegate.CreateDelegate(typeof(ItemDatabaseHandler), method, false);
+                if (itemDBHandler != null)
+                {
+                    if (itemDatabaseHandlers.ContainsKey(attribute.HandlerUID))
+                    {
+                        Debug.LogError($"[OSML] DuplicateHandlerException: '{method.DeclaringType}.{method.Name}' Only one handler method is allowed per UID!");
+                        return false;
+                    }
+                    else
+                    {
+                        itemDatabaseHandlers.Add(attribute.HandlerUID, (ItemDatabaseHandler)itemDBHandler);
+                    }
+                }
+                else
+                {
+                    Debug.LogError($"[OSML] InvalidHandlerSignatureException: '{method.DeclaringType}.{method.Name}' doesn't match any acceptable Item Database handler method signatures! Furniture handler methods should have a 'List<Item>' parameter and should return 'List<Item>'.");
                     return false;
                 }
             }
